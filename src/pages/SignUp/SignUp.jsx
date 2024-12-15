@@ -1,13 +1,14 @@
 import React ,{useState}from 'react'
 import Navbar from '../../components/Navbar'
 import PasswordInput from '../../components/Input/PasswordInput'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { validateEmail } from '../../utils/helper'
 function SignUp() {
     const [name,setName]=useState("")
     const [email, setEmail]=useState("")
     const [password, setPassword]=useState("")
     const [error, setError]=useState(null)
+    const navigate=useNavigate()
     const handleSubmit = async (e) => {
         e.preventDefault();
         if(!name){
@@ -23,6 +24,30 @@ function SignUp() {
             return;
         }
         setError('');
+
+        try {
+          const response = await axiosInstance.post("/create-account", {
+            fullName:fullName,
+            email: email,
+            password: password,
+          });
+    
+          if (response.data && response.data.error) {
+            setError(response.data.error)
+            return;
+          }
+          if(response.data && response.data.response){
+            localStorage.setItem("token", response.data.accessToken)
+            navigate('./dashboard')
+          }
+        } catch (error) {
+          // Handle API error response
+          if (error.response && error.response.data && error.response.data.message) {
+            setError(error.response.data.message);
+          } else {
+            setError("An error occurred while logging in.");
+          }
+        }
     }
   return (
     <>
