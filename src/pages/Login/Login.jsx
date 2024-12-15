@@ -44,7 +44,7 @@ function Login() {
       if (error.response && error.response.data && error.response.data.message) {
         setError(error.response.data.message);
       } else {
-        setError("An error occurred");
+        setError("An error occurred while logging in.");
       }
     }
   };
