@@ -79,6 +79,21 @@ function Home() {
     }
   };
 
+  const updatedIsPinned = async (noteData) => {
+    try {
+      const response = await axiosInstance.put(`/update-isPinned/${noteData._id}`, {
+        isPinned:!noteData.isPinned,
+      });
+      if (response.data && response.data.message) {
+        showToastMessage("Pinned status updated successfully",'update');
+        updatedIsPinned();
+      }
+    } catch (error) {
+      console.error(error);
+      showToastMessage("An error occurred while updating pinned status.", "error");
+    }
+  }
+
   //delete notes
   const deleteNode=async(data)=>{
     try {
@@ -116,7 +131,7 @@ function Home() {
                 isPinned={item.isPinned}
                 onEdit={() => handleEdit(item)}
                 onDelete={() => deleteNode(item)}
-                onPinMode={() => {}}
+                onPinMode={() => updatedIsPinned(item)}
               />
             );
           })}
