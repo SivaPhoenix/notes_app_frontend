@@ -44,4 +44,7 @@ Stay organized, manage tasks, and keep your ideas at your fingertips with our sl
 
 💻 **Try it out and elevate your note-taking game!**
 
+## Screenshot
+[Screenshots](./src/assets/notes_app.png)
+
 
